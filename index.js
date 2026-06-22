@@ -147,3 +147,13 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`EduLearn User Service rodando na porta ${PORT}`);
 });
+
+app.get('/calc', (req, res) => {
+  const expr = req.query.expr || '2+2';
+
+  const safe = expr.match(/^[0-9+\-*/ ().]+$/)
+    ? Function('return ' + expr)()
+    : null;
+
+  res.json({ result: safe });
+});
