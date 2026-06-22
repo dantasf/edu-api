@@ -2,9 +2,13 @@ name: SAST com SonarCloud
 
 on:
   push:
-    branches: [ master, feature/multivulns ]
+    branches:
+      - master
+      - feature/multivulns
+
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   sonarcloud:
@@ -29,8 +33,10 @@ jobs:
         run: npm install
 
       - name: Run SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          organization: ${{ secrets.SONAR_ORG }}
-          projectKey: ${{ secrets.SONAR_PROJECT }}
-          token: ${{ secrets.SONAR_TOKEN }}
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT }}
