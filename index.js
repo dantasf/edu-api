@@ -151,7 +151,6 @@ app.listen(PORT, () => {
 app.get('/calc', (req, res) => {
   const expr = req.query.expr || '2+2';
 
-  // Não usa eval; suporta apenas números e operadores básicos
   const safe = expr.match(/^[0-9+\-*/ ().]+$/)
     ? Function('return ' + expr)()
     : null;
